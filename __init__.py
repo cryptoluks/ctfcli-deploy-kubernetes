@@ -141,7 +141,7 @@ class KubernetesDeploymentHandler(DeploymentHandler):
             else:
                 labels.setdefault("kompose.service.expose", hostname)
 
-            namespace = slugify(self.challenge.get("name"))
+            namespace = slugify(f"ctfd-challenge-{self.challenge.get('name')}")
             if registry:
                 services[key].setdefault("image", f"{registry}/{namespace}/{key}")
 
