@@ -141,7 +141,7 @@ class KubernetesDeploymentHandler(DeploymentHandler):
             else:
                 labels.setdefault("kompose.service.expose", hostname)
 
-            namespace = slugify(f"ctfd-challenge-{self.challenge.get('name')}")
+            namespace = slugify(self.challenge.get("name"))
             if registry:
                 services[key].setdefault("image", f"{registry}/{namespace}/{key}")
 
@@ -154,7 +154,7 @@ class KubernetesDeploymentHandler(DeploymentHandler):
                     "--build",
                     "local",
                     "--namespace",
-                    namespace,
+                    f"ctfd-challenge-{namespace}",
                     "--out",
                     tmp,
                     "--push-image",
@@ -191,9 +191,9 @@ class KubernetesDeploymentHandler(DeploymentHandler):
                         tmp,
                         "--prune",
                         "--namespace",
-                        namespace,
+                        f"ctfd-challenge-{namespace}",
                         "--applyset",
-                        namespace,
+                        f"ctfd-challenge-{namespace}"
                     ],
                     env=env,
                 )
