@@ -136,11 +136,10 @@ class KubernetesDeploymentHandler(DeploymentHandler):
                     )
 
             labels = services[key].setdefault("labels", {})
-            # Do not expose services, we only need them internally
-            # if self.protocol == "tcp":
-            #     labels.setdefault("kompose.service.type", "loadbalancer")
-            # else:
-            #     labels.setdefault("kompose.service.expose", hostname)
+            if self.protocol == "tcp":
+                labels.setdefault("kompose.service.type", "loadbalancer")
+            else:
+                labels.setdefault("kompose.service.expose", hostname)
 
             namespace = slugify(self.challenge.get("name"))
             if registry:
